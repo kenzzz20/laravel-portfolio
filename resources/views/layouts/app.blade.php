@@ -2,14 +2,6 @@
     $p = config('portfolio');
     // Mga text na nagtatago kapag naka-collapse ang sidebar (desktop)
     $label = 'whitespace-nowrap transition-opacity duration-200 lg:opacity-0 lg:group-hover/sidebar:opacity-100 lg:group-focus-within/sidebar:opacity-100';
-    // Plain text links sa ilalim ng nav (palitan ang mga href kung kailangan)
-    $links = $p['links'] ?? [
-        ['Projects', route('home') . '#projects'],
-        ['Experience', route('home') . '#experience'],
-        ['Stack', route('home') . '#stack'],
-        ['Certifications', route('home') . '#certifications'],
-        ['Recommendations', route('home') . '#recommendations'],
-    ];
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="night" class="scroll-smooth">
@@ -31,6 +23,9 @@
             } catch (e) { document.documentElement.setAttribute('data-theme', 'night'); }
         })();
     </script>
+
+    @fonts
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         /* Theme wipe animation */
@@ -71,17 +66,23 @@
             overflow-x: clip;
         }
 
-        /* ===== Fluid sidebar: umaangkop sa taas ng screen, walang scroll ===== */
+        /* ===== Responsive Sidebar: touch-friendly sa mobile, fluid sa desktop ===== */
         #sidebar {
-            --row: clamp(1.55rem, 4.1dvh, 2.4rem);
-            /* taas ng bawat item */
-            --ico: clamp(.9rem, 2.1dvh, 1.2rem);
-            /* laki ng icon */
-            --fs: clamp(.68rem, 1.55dvh, .875rem);
-            /* laki ng font */
-            --sep: clamp(.2rem, 1dvh, .6rem);
-            /* space sa paligid ng divider */
-            padding-block: clamp(.6rem, 2.6dvh, 1.5rem);
+            --row: clamp(2.35rem, 5dvh, 2.75rem);
+            --ico: 1.125rem;
+            --fs: 0.875rem;
+            --sep: 0.5rem;
+            padding-block: 1rem;
+        }
+
+        @media (min-width: 1024px) {
+            #sidebar {
+                --row: clamp(1.75rem, 4.2dvh, 2.4rem);
+                --ico: clamp(1rem, 2.1dvh, 1.15rem);
+                --fs: clamp(.72rem, 1.55dvh, .875rem);
+                --sep: clamp(.25rem, 1dvh, .6rem);
+                padding-block: clamp(.75rem, 2.6dvh, 1.5rem);
+            }
         }
 
         #sidebar .nav-item {
@@ -95,19 +96,20 @@
             line-height: 1;
         }
 
-        #sidebar .nav-item svg {
-            width: var(--ico);
-            height: var(--ico);
+        /* Uniform icon slot para pantay ang lahat ng icons (kasama email) sa 14" at 24" */
+        #sidebar .nav-ico {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.25rem;
+            height: 1.25rem;
             flex-shrink: 0;
         }
 
-        #sidebar .plain-link {
-            display: flex;
-            align-items: center;
-            height: calc(var(--row) * .85);
-            padding-inline: .75rem;
-            font-size: var(--fs);
-            line-height: 1;
+        #sidebar .nav-ico svg {
+            width: var(--ico);
+            height: var(--ico);
+            flex-shrink: 0;
         }
 
         #sidebar .sep {
@@ -118,19 +120,21 @@
             display: none;
         }
 
-        /* safety: walang magkadikit na divider */
         #sidebar .logo {
-            width: clamp(1.35rem, 3.3dvh, 1.75rem);
-            height: clamp(1.35rem, 3.3dvh, 1.75rem);
+            width: 1.5rem;
+            height: 1.5rem;
         }
 
         #sidebar .theme-btn {
+            position: relative;
+            z-index: 1;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: calc(var(--row) * .9);
             height: calc(var(--row) * .9);
             border-radius: 9999px;
+            flex-shrink: 0;
         }
 
         #sidebar .theme-btn svg {
@@ -138,46 +142,67 @@
             height: calc(var(--ico) * .9);
         }
 
+        /* Sliding active background indicator */
+        #sidebar .theme-indicator {
+            position: absolute;
+            top: 0.125rem;
+            left: 0.125rem;
+            width: calc(var(--row) * .9);
+            height: calc(var(--row) * .9);
+            border-radius: 9999px;
+            pointer-events: none;
+            transform: translateX(calc(var(--theme-idx, 2) * (100% + 0.125rem)));
+        }
+
+        #sidebar .theme-pill.is-sliding .theme-indicator {
+            transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
         #sidebar .small-text {
-            font-size: clamp(.62rem, 1.4dvh, .75rem);
+            font-size: clamp(.68rem, 1.4dvh, .75rem);
             line-height: 1.35;
         }
 
-        /* Naka-collapse: isang avatar lang ang makikita */
+        /* Typing test: itago sa mobile/tablet (< 1024px) */
+        @media (max-width: 1023px) {
+            #sidebar .desktop-only {
+                display: none !important;
+            }
+        }
+
+        /* Naka-collapse sa desktop: isang avatar at active theme icon lang ang makikita */
         @media (min-width: 1024px) {
-            #sidebar:not(:hover):not(:focus-within) .avatars> :not(:first-child) {
+            #sidebar:not(:hover):not(:focus-within) .avatars> :not(:first-child),
+            #sidebar:not(:hover):not(:focus-within) .theme-pill [data-theme-btn][aria-pressed="false"],
+            #sidebar:not(:hover):not(:focus-within) .sound-toggle {
                 display: none;
+            }
+
+            #sidebar:not(:hover):not(:focus-within) .theme-indicator {
+                transform: translateX(0) !important;
+                transition: none !important;
             }
         }
 
-        /* Pag sobrang liit ng taas: itago ang pangalawahin */
-        @media (max-height: 760px) {
-            #sidebar .opt-links {
-                display: none;
-            }
-        }
-
-        @media (max-height: 680px) {
+        /* Pag sobrang liit ng taas sa desktop: itago ang pangalawahin */
+        @media (min-width: 1024px) and (max-height: 640px) {
             #sidebar .opt-tagline {
-                display: none;
+                display: none !important;
             }
         }
 
-        @media (max-height: 560px) {
+        @media (min-width: 1024px) and (max-height: 540px) {
             #sidebar .opt-email {
-                display: none;
+                display: none !important;
             }
         }
 
-        @media (max-height: 480px) {
+        @media (min-width: 1024px) and (max-height: 460px) {
             #sidebar .opt-viewers {
-                display: none;
+                display: none !important;
             }
         }
     </style>
-
-    @fonts
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="min-h-screen bg-base-100 text-base-content/70 antialiased">
@@ -186,21 +211,21 @@
         <input id="nav-drawer" type="checkbox" class="drawer-toggle" />
 
         {{-- ===== Content ===== --}}
-        <div class="drawer-content relative min-w-0">
-            <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem] opacity-60 [background-image:radial-gradient(circle_at_1px_1px,color-mix(in_oklab,var(--color-base-content)_25%,transparent)_1px,transparent_0)] [background-size:18px_18px] [mask-image:radial-gradient(ellipse_at_top_right,black_10%,transparent_65%)]"
+        <div class="drawer-content relative flex min-h-dvh min-w-0 flex-col">
+            <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[24rem] opacity-60 sm:h-[32rem] [background-image:radial-gradient(circle_at_1px_1px,color-mix(in_oklab,var(--color-base-content)_25%,transparent)_1px,transparent_0)] [background-size:18px_18px] [mask-image:radial-gradient(ellipse_at_top_right,black_10%,transparent_65%)]"
                 aria-hidden="true"></div>
 
-            {{-- Mobile header --}}
+            {{-- Mobile & Tablet header --}}
             <header
-                class="navbar sticky top-0 z-30 border-b border-base-content/10 bg-base-100/80 px-4 backdrop-blur-md lg:hidden">
-                <div class="navbar-start gap-3">
+                class="navbar sticky top-0 z-30 border-b border-base-content/10 bg-base-100/80 px-4 pt-[env(safe-area-inset-top)] backdrop-blur-md sm:px-6 lg:hidden">
+                <div class="navbar-start min-w-0 flex-1 gap-2.5 sm:gap-3">
                     <span
-                        class="flex h-8 w-8 items-center justify-center rounded-full bg-base-content font-mono text-xs text-base-100">KM</span>
+                        class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-base-content font-mono text-xs font-medium text-base-100">KM</span>
                     <a href="{{ route('home') }}"
-                        class="font-mono text-sm font-medium text-base-content">{{ $p['name'] }}</a>
+                        class="truncate font-mono text-sm font-medium text-base-content sm:text-base">{{ $p['name'] }}</a>
                 </div>
-                <div class="navbar-end">
-                    <label for="nav-drawer" class="btn btn-ghost btn-square" aria-label="Open menu">
+                <div class="navbar-end w-auto shrink-0">
+                    <label for="nav-drawer" class="btn btn-ghost btn-square btn-sm sm:btn-md" aria-label="Open menu">
                         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                 d="M4 6h16M4 12h16M4 18h16" />
@@ -209,13 +234,15 @@
                 </div>
             </header>
 
-            <main class="mx-auto w-full max-w-[1500px] px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20">
-                @yield('content')
+            <main class="mx-auto flex w-full max-w-[1500px] flex-1 flex-col px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20">
+                <div class="flex-1">
+                    @yield('content')
+                </div>
 
                 <footer
-                    class="flex flex-col gap-3 border-t border-base-content/10 py-8 font-mono text-xs sm:flex-row sm:items-center sm:justify-between sm:py-10 sm:text-sm">
+                    class="mt-auto flex flex-col gap-3 border-t border-base-content/10 py-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] font-mono text-xs sm:flex-row sm:items-center sm:justify-between sm:py-10 sm:text-sm">
                     <p class="text-center text-base-content/50 sm:text-left">© {{ now()->year }} {{ $p['name'] }}</p>
-                    <nav class="flex flex-wrap justify-center gap-x-5 gap-y-2 text-base-content/60 sm:justify-end"
+                    <nav class="flex flex-wrap justify-center gap-x-4 gap-y-2 text-base-content/60 sm:justify-end sm:gap-x-5"
                         aria-label="Social links">
                         @foreach ($p['socials'] as [$l, $u])
                             <a href="{{ $u }}" target="_blank" rel="noreferrer"
@@ -231,24 +258,35 @@
         @include('layouts.navigation')
     </div>
 
-    {{-- ===== Alt+K: Ask anything (fullscreen, blurred) ===== --}}
+    {{-- ===== Alt+K: Ask anything (responsive fullscreen, blurred) ===== --}}
     <div id="ask"
-        class="fixed inset-0 z-[100] hidden items-center bg-base-100/75 px-[5vw] font-mono opacity-0 backdrop-blur-xl transition-opacity duration-300"
+        class="fixed inset-0 z-[100] hidden items-center bg-base-100/80 px-5 font-mono opacity-0 backdrop-blur-xl transition-opacity duration-300 sm:px-[5vw]"
         role="dialog" aria-modal="true" aria-label="Ask anything">
-        <div class="w-full max-w-3xl">
+        <button type="button" data-close-overlay
+            class="btn btn-ghost btn-sm btn-circle fixed top-4 right-4 text-base-content/60 hover:text-base-content sm:top-6 sm:right-6"
+            aria-label="Close dialog">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <div class="mx-auto w-full max-w-3xl">
             <form id="ask-form" class="space-y-3">
-                <h2 class="font-sans text-5xl font-medium text-base-content sm:text-6xl">what do you want to ask?</h2>
+                <h2 class="font-sans text-3xl leading-tight font-medium text-base-content sm:text-5xl md:text-6xl">what do you want to ask?</h2>
                 <input id="ask-input" maxlength="200" autocomplete="off" spellcheck="false" aria-label="Your question"
-                    class="w-full bg-transparent text-xl text-base-content/70 caret-base-content outline-none sm:text-2xl">
-                <p class="text-sm text-base-content/40">press enter to send · esc to close</p>
+                    placeholder="type your question..."
+                    class="w-full bg-transparent text-lg text-base-content/80 placeholder:text-base-content/25 caret-base-content outline-none sm:text-2xl">
+                <p class="text-xs text-base-content/40 sm:text-sm">
+                    press enter to send <span class="hidden sm:inline">· esc to close</span>
+                </p>
             </form>
 
             <div id="ask-wait" class="hidden space-y-4">
                 <p id="ask-asked"
-                    class="w-fit max-w-full break-words rounded-md border border-base-content/15 bg-base-200/60 px-3 py-2 text-base text-base-content">
+                    class="w-fit max-w-full break-words rounded-md border border-base-content/15 bg-base-200/60 px-3 py-2 text-sm text-base-content sm:text-base">
                 </p>
-                <p class="flex items-center gap-2 text-lg text-base-content/50">
-                    <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                <p class="flex items-center gap-2 text-base text-base-content/50 sm:text-lg">
+                    <svg class="h-4 w-4 shrink-0 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2">
                         <path d="M12 3a9 9 0 1 0 9 9" stroke-linecap="round" />
                     </svg>
@@ -257,15 +295,15 @@
             </div>
 
             <p id="ask-line"
-                class="hidden max-w-3xl font-sans text-3xl leading-snug text-base-content opacity-0 transition-opacity duration-500 sm:text-5xl">
+                class="hidden max-w-3xl font-sans text-2xl leading-snug text-base-content opacity-0 transition-opacity duration-500 sm:text-4xl md:text-5xl">
             </p>
-            <p id="ask-end" class="mt-8 hidden text-sm text-base-content/40">esc or click anywhere to close</p>
+            <p id="ask-end" class="mt-6 hidden text-xs text-base-content/40 sm:mt-8 sm:text-sm">tap anywhere or press esc to close</p>
         </div>
     </div>
 
-    {{-- ===== Alt+J: Typing test (blurred, sumusunod sa theme) ===== --}}
+    {{-- ===== Alt+J: Typing test (desktop/laptop only) ===== --}}
     <div id="typing"
-        class="fixed inset-0 z-[100] hidden flex-col items-center justify-center bg-base-100/70 px-6 font-mono text-base-content opacity-0 backdrop-blur-xl transition-opacity duration-300"
+        class="fixed inset-0 z-[100] hidden flex-col items-center justify-center bg-base-100/75 px-6 font-mono text-base-content opacity-0 backdrop-blur-xl transition-opacity duration-300"
         role="dialog" aria-modal="true" aria-label="Typing test">
         <div class="w-full max-w-2xl">
             <div class="mb-6 h-0.5 w-full overflow-hidden rounded-full bg-base-content/10">
@@ -273,7 +311,7 @@
             </div>
 
             <p id="t-text"
-                class="select-none whitespace-pre-wrap break-words text-xl leading-9 sm:text-2xl sm:leading-10"
+                class="select-none whitespace-pre-wrap break-words text-xl leading-9 lg:text-2xl lg:leading-10"
                 aria-live="off"></p>
 
             <dl class="mt-8 flex items-baseline gap-8 text-sm">
@@ -301,6 +339,7 @@
     <script>
         const $ = (id) => document.getElementById(id);
         const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+        const isDesktop = () => window.matchMedia('(min-width: 1024px)').matches;
 
         // ---------- KEYBOARD SOUND ENGINE ----------
         const KeyboardSound = (() => {
@@ -321,7 +360,6 @@
 
                 const t = ctx.currentTime;
 
-                // 1. High-frequency click (malakas na plastic/metal sound)
                 const osc = ctx.createOscillator();
                 const gainOsc = ctx.createGain();
                 osc.type = isError ? 'sawtooth' : 'triangle';
@@ -330,7 +368,6 @@
                 osc.frequency.setValueAtTime(isError ? 150 + pitchMod : 900 + randomPitch + pitchMod, t);
                 osc.frequency.exponentialRampToValueAtTime(isError ? 80 + pitchMod : 300 + randomPitch, t + 0.02);
 
-                // PINALAKAS: mula 0.04 naging 0.15
                 gainOsc.gain.setValueAtTime(isError ? 0.2 : 0.15, t);
                 gainOsc.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
 
@@ -339,9 +376,8 @@
                 osc.start(t);
                 osc.stop(t + 0.05);
 
-                // 2. Low-frequency "thock" (bass body ng keyboard)
                 if (!isError) {
-                    const bufferSize = ctx.sampleRate * 0.03; // Ginawang 30ms para mas matagal
+                    const bufferSize = ctx.sampleRate * 0.03;
                     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
                     const data = buffer.getChannelData(0);
                     for (let i = 0; i < bufferSize; i++) {
@@ -353,10 +389,9 @@
 
                     const filter = ctx.createBiquadFilter();
                     filter.type = 'lowpass';
-                    filter.frequency.setValueAtTime(300 + pitchMod, t); // Mas mababa = mas bass
+                    filter.frequency.setValueAtTime(300 + pitchMod, t);
 
                     const gainNoise = ctx.createGain();
-                    // PINALAKAS: mula 0.06 naging 0.25
                     gainNoise.gain.setValueAtTime(0.25, t);
                     gainNoise.gain.exponentialRampToValueAtTime(0.001, t + 0.03);
 
@@ -376,7 +411,7 @@
                     return enabled;
                 },
                 tick(ok) { play(ok ? 0 : -100, !ok); },
-                hover() { play(80, false); }, // Bahagyang mas mataas para sa hover
+                hover() { play(80, false); },
                 click() { play(0, false); }
             };
         })();
@@ -384,12 +419,25 @@
         // ---------- Theme ----------
         const ThemeStore = (() => {
             let mode = 'dark';
-            const apply = () => {
+            let slideTimer = null;
+            const INDEX = { system: 0, light: 1, dark: 2 };
+
+            const apply = (animate = false) => {
                 const d = mode === 'dark' || (mode === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
                 document.documentElement.setAttribute('data-theme', d ? 'night' : 'light');
+
+                const pill = document.querySelector('.theme-pill');
+                if (pill) {
+                    if (animate) {
+                        pill.classList.add('is-sliding');
+                        clearTimeout(slideTimer);
+                        slideTimer = setTimeout(() => pill.classList.remove('is-sliding'), 280);
+                    }
+                    pill.style.setProperty('--theme-idx', INDEX[mode] ?? 2);
+                }
+
                 document.querySelectorAll('[data-theme-btn]').forEach(b => {
                     const on = b.dataset.themeBtn === mode;
-                    b.classList.toggle('bg-base-200', on);
                     b.classList.toggle('text-base-content', on);
                     b.classList.toggle('text-base-content/50', !on);
                     b.setAttribute('aria-pressed', on);
@@ -398,11 +446,11 @@
             return {
                 init() {
                     try { mode = localStorage.getItem('theme') || 'dark'; } catch (e) { }
-                    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', apply);
-                    apply();
+                    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => apply(false));
+                    apply(false);
                 },
                 set(next, ev) {
-                    const run = () => { mode = next; try { localStorage.setItem('theme', next); } catch (e) { } apply(); };
+                    const run = () => { mode = next; try { localStorage.setItem('theme', next); } catch (e) { } apply(true); };
                     if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return run();
                     if (ev) {
                         document.documentElement.style.setProperty('--wipe-x', ev.clientX + 'px');
@@ -415,21 +463,19 @@
         ThemeStore.init();
         document.querySelectorAll('[data-theme-btn]').forEach(b => b.addEventListener('click', e => ThemeStore.set(b.dataset.themeBtn, e)));
 
-        // ---------- Close mobile drawer on nav click ----------
+        // ---------- Close mobile drawer on nav click or resize to desktop ----------
         const drawerToggle = $('nav-drawer');
         const closeDrawer = () => { if (drawerToggle) drawerToggle.checked = false; };
         document.querySelectorAll('aside a').forEach(a => a.addEventListener('click', closeDrawer));
+        window.addEventListener('resize', () => { if (isDesktop()) closeDrawer(); });
 
         // ---------- Global Hover & Click Sounds ----------
         (() => {
-            // Piliin ang mga interactive elements
-            const interactiveSelector = 'a, button, .nav-item, .plain-link, .theme-btn, [role="button"]';
+            const interactiveSelector = 'a, button, .nav-item, .theme-btn, [role="button"]';
             const elements = document.querySelectorAll(interactiveSelector);
 
             elements.forEach(el => {
-                // Hover sound
                 el.addEventListener('mouseenter', () => KeyboardSound.hover());
-                // Click sound
                 el.addEventListener('mousedown', () => KeyboardSound.click());
             });
         })();
@@ -475,6 +521,7 @@
             };
             overlays[name] = o;
             el.addEventListener('click', e => { if (e.target === el) o.close(); });
+            el.querySelectorAll('[data-close-overlay]').forEach(btn => btn.addEventListener('click', () => o.close()));
             return o;
         }
 
@@ -526,7 +573,10 @@
                 end.classList.add('hidden');
             };
             const o = makeOverlay('ask', el, 'flex', () => { run++; });
-            el.addEventListener('click', () => { if (form.classList.contains('hidden')) o.close(); });
+            el.addEventListener('click', (e) => {
+                if (e.target.closest('[data-close-overlay]')) return;
+                if (form.classList.contains('hidden')) o.close();
+            });
             const open = () => { o.open(); run++; step('input'); input.value = ''; line.classList.add('opacity-0'); setTimeout(() => input.focus(), 50); };
 
             const osName = () => {
@@ -603,7 +653,7 @@
             window.__openAsk = open; window.__askOverlay = o;
         })();
 
-        // ---------- Alt+J: Typing test ----------
+        // ---------- Alt+J: Typing test (Desktop/Laptop only) ----------
         (() => {
             const el = $('typing'), text = $('t-text'), bar = $('t-bar'), msg = $('t-msg');
             const out = { wpm: $('t-wpm'), acc: $('t-acc'), time: $('t-time') };
@@ -637,7 +687,15 @@
                 msg.textContent = 'start typing to begin'; msg.classList.remove('text-base-content');
                 paint();
             };
-            const open = () => { reset(); o.open(); };
+            const open = () => {
+                if (!isDesktop()) return;
+                reset();
+                o.open();
+            };
+
+            window.addEventListener('resize', () => {
+                if (!isDesktop() && o.isOpen) o.close();
+            });
 
             const onKey = (e) => {
                 if (!o.isOpen) return;
@@ -651,7 +709,6 @@
                 keys++; if (ok) hits++;
                 typed += e.key;
 
-                // Tunog ng keyboard (mula sa KeyboardSound engine)
                 KeyboardSound.tick(ok);
 
                 if (typed.length === target.length) {
@@ -668,7 +725,12 @@
         // ---------- Global shortcuts: Alt+K, Alt+J, Esc ----------
         document.addEventListener('keydown', (e) => {
             if ((e.metaKey || e.ctrlKey || e.altKey) && e.code === 'KeyK') { e.preventDefault(); window.__openAsk(); return; }
-            if ((e.metaKey || e.ctrlKey || e.altKey) && e.code === 'KeyJ') { e.preventDefault(); window.__openTyping(); return; }
+            if ((e.metaKey || e.ctrlKey || e.altKey) && e.code === 'KeyJ') {
+                if (!isDesktop()) return;
+                e.preventDefault();
+                window.__openTyping();
+                return;
+            }
             if (e.key === 'Escape') Object.values(overlays).forEach(o => o.close());
         });
     </script>

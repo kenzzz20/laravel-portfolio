@@ -9,13 +9,13 @@ return [
     // Para mag-hide, maglagay lang ng "//" sa unahan ng linya.
     'nav' => [
         [
-            // ['Shop', 'shop'], 
-            ['Blog', 'blog'], 
-            ['Gear', 'gear'], 
+            // ['Shop', 'shop'],
+            ['Blog', 'blog'],
+            ['Gear', 'gear'],
             // ['Resources', 'resources']
         ],
         [
-            // ['Collabs', 'collabs'], 
+            // ['Collabs', 'collabs'],
             // ['Consulting', 'consulting']
         ],
         [
@@ -34,48 +34,134 @@ return [
         ['facebook', 'https://www.facebook.com/kennet.malinao37'],
     ],
 
+    'stats' => [
+        ['4th Yr', 'BSIT · Dean\'s Lister'],
+        ['4+', 'projects built'],
+        ['500 hrs', 'OJT ready'],
+    ],
+
     'projects' => [
-        ['title' => 'Portfolio CMS', 'desc' => 'Laravel content system for case studies, with a dark admin UI and Alpine inline editing.', 'tags' => ['Laravel', 'Tailwind', 'Alpine.js', 'MySQL'], 'image' => 'https://picsum.photos/seed/cms1/800/500', 'badge' => 'Featured', 'demo' => '#', 'repo' => '#'],
-        ['title' => 'Taskflow', 'desc' => 'Lightweight project tracker with Kanban boards and role-based access.', 'tags' => ['Laravel', 'Alpine.js'], 'image' => 'https://picsum.photos/seed/task1/800/500', 'badge' => null, 'demo' => '#', 'repo' => '#'],
-        ['title' => 'InvoiceKit', 'desc' => 'Client invoicing dashboard with PDF exports, reminders, and MySQL reporting.', 'tags' => ['Laravel', 'Tailwind', 'MySQL'], 'image' => 'https://picsum.photos/seed/inv1/800/500', 'badge' => null, 'demo' => '#', 'repo' => '#'],
-        ['title' => 'Studio Landing', 'desc' => 'High-contrast marketing site with bento layouts and a daisyUI kit.', 'tags' => ['Tailwind', 'daisyUI', 'Alpine.js'], 'image' => 'https://picsum.photos/seed/studio1/800/500', 'badge' => null, 'demo' => '#', 'repo' => '#'],
+        [
+            'title' => 'BJMP Visitor Management System',
+            'desc'  => 'Web-based jail visitation scheduling and single-use QR code pass system for Surigao del Norte District Jail with real-time updates and facial detection.',
+            'tags'  => ['Laravel 12', 'Tailwind CSS', 'Alpine.js', 'MySQL', 'FastAPI'],
+            'image' => 'https://picsum.photos/seed/vmsbjmp/800/500',
+            'badge' => 'Capstone',
+            'demo'  => '#',
+            'repo'  => 'https://github.com/kenzzz20',
+        ],
+        [
+            'title' => 'Swapify',
+            'desc'  => 'Item bartering e-commerce prototype featuring role-based access control, trade offers, and OTP email verification.',
+            'tags'  => ['Laravel 12', 'Tailwind CSS', 'daisyUI', 'MySQL'],
+            'image' => 'https://picsum.photos/seed/swapify1/800/500',
+            'badge' => null,
+            'demo'  => '#',
+            'repo'  => 'https://github.com/kenzzz20',
+        ],
+        [
+            'title' => 'FlowSpace Portal',
+            'desc'  => 'Clean user registration, authentication, and email verification system built with vanilla PHP, PHPMailer, and Tailwind CSS.',
+            'tags'  => ['PHP 8.3', 'MySQL', 'PHPMailer', 'Tailwind CSS'],
+            'image' => 'https://picsum.photos/seed/flowspace1/800/500',
+            'badge' => null,
+            'demo'  => '#',
+            'repo'  => 'https://github.com/kenzzz20',
+        ],
+        [
+            'title' => 'Convenience Store POS & Inventory UI',
+            'desc'  => 'Minimalist sales tracking and stock monitoring dashboard prototype designed in Figma with dark/light modes.',
+            'tags'  => ['Figma', 'UI Design', 'Responsive Layouts'],
+            'image' => 'https://picsum.photos/seed/posui1/800/500',
+            'badge' => null,
+            'demo'  => '#',
+            'repo'  => 'https://github.com/kenzzz20',
+        ],
     ],
 
     'experience' => [
-        ['year' => '2025', 'role' => 'Full-Stack Developer', 'org' => 'Surigao City Jail · BJMP'],
-        ['year' => '2024', 'role' => 'Freelance Web Developer', 'org' => 'Self-employed'],
-        ['year' => '2023', 'role' => 'Front-end / UI Designer', 'org' => 'Freelance'],
+        ['year' => '2026',    'role' => 'Capstone Full-Stack Developer',       'org' => 'Surigao del Norte District Jail · Academic Capstone'],
+        ['year' => '2025–26', 'role' => 'Freelance Web & Data Assistant',      'org' => 'Remote / Project-Based'],
+        ['year' => '2024–26', 'role' => 'Peer Front-End & Technical Support',  'org' => 'BSIT Student Projects · NEMCO'],
+        ['year' => '2023–26', 'role' => 'BS in Information Technology (4th Yr)', 'org' => 'Northeastern Mindanao Colleges'],
     ],
 
-    'skills' => ['Laravel 12', 'PHP 8.3', 'MySQL', 'REST APIs', 'Tailwind CSS', 'daisyUI', 'Alpine.js', 'Blade', 'Vite', 'Git', 'UI Design', 'Responsive Layouts', 'Figma', 'Adobe Photoshop', 'Capcut'],
+    'skills' => [
+        'Laravel 12', 'PHP 8.3', 'MySQL', 'REST APIs',
+        'Tailwind CSS', 'daisyUI', 'Alpine.js', 'Blade',
+        'Vite', 'Git', 'UI Design', 'Responsive Layouts',
+        'Figma', 'Adobe Photoshop', 'CapCut',
+    ],
 
     'certifications' => [
-        ['name' => 'Certificate of Participation', 'issuer' => 'Benneth A. Aloyon', 'image' => 'certs/COP.jpg', 'url' => '#'],
-        ['name' => 'Certificate of Recognition (2024-2025)', 'issuer' => 'Benneth A. Aloyon', 'image' => 'certs/COR1.jpg', 'url' => '#'],
-        ['name' => 'Certificate of Recognition (2025-2026)', 'issuer' => 'Benneth A. Aloyon', 'image' => 'certs/COR2.jpg', 'url' => '#'],
+        [
+            'name'   => 'Certificate of Participation · WordPress Portfolio Workshop',
+            'issuer' => 'Benneth A. Aloyon · NEMCO CIT',
+            'year'   => '2026',
+            'image'  => 'certs/COP.jpg',
+            'url'    => '#',
+        ],
+        [
+            'name'   => 'Certificate of Recognition · Dean\'s Lister (2024–2025)',
+            'issuer' => 'Benneth A. Aloyon · NEMCO CIT',
+            'year'   => '2025',
+            'image'  => 'certs/COR1.jpg',
+            'url'    => '#',
+        ],
+        [
+            'name'   => 'Certificate of Recognition · Dean\'s Lister (2025–2026)',
+            'issuer' => 'Benneth A. Aloyon · NEMCO CIT',
+            'year'   => '2026',
+            'image'  => 'certs/COR2.jpg',
+            'url'    => '#',
+        ],
     ],
 
     'recommendations' => [
-        ['quote' => 'Palitan mo ito ng totoong testimonial.', 'who' => 'Juan Dela Cruz', 'title' => 'Position, Company'],
-        ['quote' => 'Palitan mo ito ng totoong testimonial.', 'who' => 'Maria Santos', 'title' => 'Position, Company'],
+        [
+            'quote' => 'Reliable when it comes to turning rough project requirements into clean, working Laravel pages.',
+            'who'   => 'Christian Patrick N. Carpio',
+            'title' => '4th-Year BSIT Classmate · NEMCO',
+        ],
+        [
+            'quote' => 'Strong attention to UI details and responsive layouts—always makes sure systems work smoothly on both mobile and desktop.',
+            'who'   => 'BSIT Capstone & Project Peers',
+            'title' => 'College of Information Technology · NEMCO',
+        ],
     ],
 
     'affiliations' => [
-        ['name' => 'Community Name', 'role' => 'Member', 'url' => '#'],
-        ['name' => 'Organization', 'role' => 'Organizer', 'url' => '#'],
+        ['name' => 'College of Information Technology', 'role' => 'BSIT Student · NEMCO', 'url' => '#'],
+        ['name' => 'NEMCO Dean\'s List Circle',        'role' => 'Academic Honors (2023–2026)', 'url' => '#'],
     ],
 
     'hackathons' => [
-        ['result' => 'Finalist · 2025', 'name' => 'Hackathon Name', 'org' => 'Organizer'],
+        ['result' => 'Defended · 2026',   'name' => 'IT Capstone Project — Visitor Management System', 'org' => 'Northeastern Mindanao Colleges'],
+        ['result' => 'Workshop · 2026',   'name' => 'Website Portfolio Development Using WordPress',   'org' => 'NEMCO College of Information Technology'],
+        ['result' => 'Dean\'s List',      'name' => 'Academic Excellence Recognition (A.Y. 2023–2026)', 'org' => 'Northeastern Mindanao Colleges'],
     ],
 
     'posts' => [
         [
-            'slug' => 'first-post',
-            'title' => 'My first post',
-            'excerpt' => 'Short summary here.',
-            'date' => 'Nov 2026',
-            'body' => "Unang paragraph.\n\nPangalawang paragraph."
+            'slug'    => 'building-offline-ready-visitor-management-system',
+            'title'   => 'Building an Offline-Capable Visitor Management System with Laravel 12',
+            'excerpt' => 'Notes from our capstone project: combining single-use QR passes, local server deployment, and lightweight facial detection.',
+            'date'    => 'Oct 2026',
+            'body'    => "For our fourth-year BSIT capstone project, we built a web-based Visitor Management System tailored for the Surigao del Norte District Jail. One of the main constraints was making sure the system could run reliably on a local network without depending on proprietary hardware.\n\nUsing Laravel 12, MySQL, Tailwind CSS, and Alpine.js, we focused on a fast staff approval workflow that generates single-use QR code entry passes alongside a lightweight Python FastAPI facial detection check.",
+        ],
+        [
+            'slug'    => 'designing-minimalist-student-portfolio',
+            'title'   => 'Designing a Minimalist Developer Portfolio with Tailwind CSS & daisyUI',
+            'excerpt' => 'Lessons learned while building a clean, keyboard-friendly portfolio layout that scales from a 14-inch laptop to a 24-inch monitor.',
+            'date'    => 'Nov 2026',
+            'body'    => "A good developer portfolio should stay out of the way and let the work speak for itself. Instead of heavy animations, I wanted a monochrome, high-contrast layout with subtle interactive touches like a collapsible icon rail, view-transition theme switching, and keyboard shortcuts.\n\nTesting across both my 14-inch laptop screen and 24-inch external monitor helped catch spacing and alignment details early.",
+        ],
+        [
+            'slug'    => 'preparing-for-500-hour-it-ojt',
+            'title'   => 'Preparing My Workflow for 500 Hours of IT OJT',
+            'excerpt' => 'Organizing my Git repositories, local Laragon workflow, and full-stack fundamentals ahead of my fourth-year internship.',
+            'date'    => 'Nov 2026',
+            'body'    => "Stepping into our 500-hour On-the-Job Training is the bridge between classroom projects and real-world software work. Over the past few weeks, I have been cleaning up my GitHub repositories, documenting my capstone codebase, and refining my front-end and Laravel fundamentals.",
         ],
     ],
 
@@ -90,34 +176,34 @@ return [
             'title' => 'Desk Setup',
             'items' => [
                 [
-                    'name' => 'Acer Aspire Go 14',
-                    'desc' => 'Ryzen 5 7520U, 8GB RAM, 256GB SSD.',
+                    'name'  => 'Acer Aspire Go 14',
+                    'desc'  => 'Ryzen 5 7520U, 8GB RAM, 256GB SSD.',
                     'image' => 'images/Gear/Laptop.jpg',
-                    'url'  => 'https://www.acer.com/ph-en/laptops/aspire/aspire-go-amd/pdp/NX.KSKSP.001',
+                    'url'   => 'https://www.acer.com/ph-en/laptops/aspire/aspire-go-amd/pdp/NX.KSKSP.001',
                 ],
                 [
-                    'name' => 'N-Vision N2455GT-B Monitor',
-                    'desc' => '23.8" FHD 144Hz IPS Monitor.',
+                    'name'  => 'N-Vision N2455GT-B Monitor',
+                    'desc'  => '23.8" FHD 144Hz IPS Monitor.',
                     'image' => 'images/Gear/Monitor.jpg',
-                    'url'  => 'https://easypc.com.ph/collections/nvision/products/nvision-n2455gt-b-23-8-fhd-144hz-ips-monitor?variant=46445082476715',
+                    'url'   => 'https://easypc.com.ph/collections/nvision/products/nvision-n2455gt-b-23-8-fhd-144hz-ips-monitor?variant=46445082476715',
                 ],
                 [
-                    'name' => 'Inplay STX390 Keyboard & Mouse Combo',
-                    'desc' => 'RGB Lighting Effects, Multimedia Keys.',
+                    'name'  => 'Inplay STX390 Keyboard & Mouse Combo',
+                    'desc'  => 'RGB Lighting Effects, Multimedia Keys.',
                     'image' => 'images/Gear/Keyboard.jpg',
-                    'url'  => 'https://business.shoppable.ph/inplay-b.158/inplay-stx390-2-in-1-multimedia-keyboard-and-mouse-or-rgb-combo-p.65417',
+                    'url'   => 'https://business.shoppable.ph/inplay-b.158/inplay-stx390-2-in-1-multimedia-keyboard-and-mouse-or-rgb-combo-p.65417',
                 ],
                 [
-                    'name' => 'Inplay Laptop Cooling Pad',
-                    'desc' => 'Keep your laptop cool during long sessions.',
+                    'name'  => 'Inplay Laptop Cooling Pad',
+                    'desc'  => 'Keep your laptop cool during long sessions.',
                     'image' => 'images/Gear/CoolingPad.jpg',
-                    'url'  => 'https://www.lazada.com.ph/products/inplay-n33-laptop-cooling-pad-stand-adjustable-bottom-corner-with-phone-holder-for-12-17-inch-laptop-i4395828618-s133157605357.html?from_gmc=1&fl_tag=1',
+                    'url'   => 'https://www.lazada.com.ph/products/inplay-n33-laptop-cooling-pad-stand-adjustable-bottom-corner-with-phone-holder-for-12-17-inch-laptop-i4395828618-s133157605357.html?from_gmc=1&fl_tag=1',
                 ],
                 [
-                    'name' => 'Jolly Plastic Rattan Table & Chair Set',
-                    'desc' => 'Outdoor furniture for the balcony.',
+                    'name'  => 'Jolly Plastic Rattan Table & Chair Set',
+                    'desc'  => 'Outdoor furniture for the balcony.',
                     'image' => 'images/Gear/Furniture.jpg',
-                    'url'  => 'https://jollyplastic.ph/product/rattan-table-30x48-6-seaters/',
+                    'url'   => 'https://jollyplastic.ph/product/rattan-table-30x48-6-seaters/',
                 ],
             ]
         ],
@@ -125,34 +211,37 @@ return [
             'title' => 'Everyday Carry',
             'items' => [
                 [
-                    'name' => 'Redmi Turbo 4 Pro',
-                    'desc' => 'White, 8GB RAM, 256GB Storage.',
-                    'image' => 'images/Gear/Redmi.jpg', // Palitan ng totoong path
-                    'url'  => 'https://www.gsmarena.com/xiaomi_redmi_turbo_4_pro-13617.php',
+                    'name'  => 'Redmi Turbo 4 Pro',
+                    'desc'  => 'White, 8GB RAM, 256GB Storage.',
+                    'image' => 'images/Gear/Redmi.jpg',
+                    'url'   => 'https://www.gsmarena.com/xiaomi_redmi_turbo_4_pro-13617.php',
                 ],
                 [
-                    'name' => 'Redmi Buds 6 Play',
-                    'desc' => 'Daily audio & calls.',
-                    'image' => 'images/Gear/RedmiBuds.jpg', // Palitan ng totoong path
-                    'url'  => 'https://www.mi.com/ph/product/redmi-buds-6-play/',
+                    'name'  => 'Redmi Buds 6 Play',
+                    'desc'  => 'Daily audio & calls.',
+                    'image' => 'images/Gear/RedmiBuds.jpg',
+                    'url'   => 'https://www.mi.com/ph/product/redmi-buds-6-play/',
                 ],
             ]
         ],
     ],
 
     'resources' => [
-        ['name' => 'Laravel Docs', 'desc' => 'Official documentation.', 'tag' => 'Docs', 'url' => 'https://laravel.com/docs'],
-        ['name' => 'daisyUI', 'desc' => 'Tailwind component library.', 'tag' => 'UI', 'url' => 'https://daisyui.com'],
+        ['name' => 'Laravel Docs',     'desc' => 'Official framework documentation.',   'tag' => 'Docs',  'url' => 'https://laravel.com/docs'],
+        ['name' => 'daisyUI',          'desc' => 'Tailwind CSS component library.',     'tag' => 'UI',    'url' => 'https://daisyui.com'],
+        ['name' => 'Tailwind CSS',     'desc' => 'Utility-first CSS reference.',      'tag' => 'CSS',   'url' => 'https://tailwindcss.com/docs'],
+        ['name' => 'Heroicons',        'desc' => 'Clean SVG icons for Blade & UI.',   'tag' => 'Icons', 'url' => 'https://heroicons.com'],
     ],
 
     'collabs' => [
-        ['name' => 'Brand / Org', 'role' => 'Ambassador', 'url' => '#'],
+        ['name' => 'NEMCO CIT Capstone', 'role' => 'Full-Stack Developer', 'url' => '#projects'],
+        ['name' => 'BSIT Peer Dev',      'role' => 'UI & Web Support',     'url' => '#experience'],
     ],
 
     'services' => [
-        ['title' => 'Laravel Web Apps', 'desc' => 'Custom systems from idea to deploy.'],
-        ['title' => 'UI / Front-end', 'desc' => 'Tailwind + Alpine interfaces.'],
-        ['title' => 'Code Review', 'desc' => 'Audit and cleanup of existing projects.'],
+        ['title' => 'Laravel Web Apps', 'desc' => 'Custom systems from idea to local or cloud deploy.'],
+        ['title' => 'UI / Front-end',   'desc' => 'Clean, responsive Tailwind + Alpine interfaces.'],
+        ['title' => 'Data & Content',   'desc' => 'Structured data cleaning, spreadsheets, and WordPress updates.'],
     ],
 
     // Heroicons (outline) paths
